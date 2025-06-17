@@ -88,7 +88,7 @@ func (s *Storage) SelectFolders(parentId int64) ([]Folder, error) {
 	var folders []Folder
 
 	stmt, err := s.db.Prepare(`SELECT folders.* FROM folders 
-		JOIN closurefolder AS t ON folders.id = t.child_id 
+		JOIN closureFolder AS t ON folders.id = t.child_id 
 		WHERE t.parent_id = ? AND t.level = 1 
 		ORDER BY folders.name`)
 	if err != nil {
@@ -220,7 +220,7 @@ func (s *Storage) AddFolder(tx *sql.Tx, folder []interface{}) (string, error) {
 		return link, err
 	}
 
-	stmt, err = tx.Prepare(`INSERT INTO closurefolder(parent_id, child_id, level) VALUES(?, ?, 0);`)
+	stmt, err = tx.Prepare(`INSERT INTO closureFolder(parent_id, child_id, level) VALUES(?, ?, 0);`)
 	if err != nil {
 		return link, err
 	}
@@ -230,9 +230,9 @@ func (s *Storage) AddFolder(tx *sql.Tx, folder []interface{}) (string, error) {
 		return link, err
 	}
 
-	stmt, err = tx.Prepare(`INSERT INTO closurefolder(parent_id, child_id, level) 
+	stmt, err = tx.Prepare(`INSERT INTO closureFolder(parent_id, child_id, level) 
 		SELECT p.parent_id, c.child_id, p.level + c.level+1 
-		FROM closurefolder p, closurefolder c 
+		FROM closureFolder p, closureFolder c 
 		WHERE p.child_id = ? and c.parent_id = ?`)
 	if err != nil {
 		return link, err
@@ -257,7 +257,7 @@ func (s *Storage) SelectPath(id int64) ([]Path, error) {
 
 	stmt, err := s.db.Prepare(`SELECT folders.id, folders.name, t.level
 		FROM folders
-		JOIN closurefolder AS t ON folders.id = t.parent_id
+		JOIN closureFolder AS t ON folders.id = t.parent_id
 		WHERE t.child_id = ? ORDER BY level desc`)
 	if err != nil {
 		return paths, err
@@ -289,7 +289,7 @@ func (s *Storage) GetLink(tx *sql.Tx, id int64) (string, error) {
 
 	stmt, err := tx.Prepare(`SELECT folders.name
 		FROM folders
-		JOIN closurefolder AS t ON folders.id = t.parent_id
+		JOIN closureFolder AS t ON folders.id = t.parent_id
 		WHERE t.child_id = ? ORDER BY level desc`)
 	if err != nil {
 		return link, err
@@ -326,7 +326,7 @@ func (s *Storage) DeleteFolder(tx *sql.Tx, id int64) (string, error) {
 		return link, err
 	}
 
-	stmt, err := tx.Prepare(`SELECT child_id FROM closurefolder WHERE parent_id = ?`)
+	stmt, err := tx.Prepare(`SELECT child_id FROM closureFolder WHERE parent_id = ?`)
 	if err != nil {
 		return link, err
 	}
@@ -359,7 +359,7 @@ func (s *Storage) DeleteFolder(tx *sql.Tx, id int64) (string, error) {
 		return link, err
 	}
 
-	stmt, err = tx.Prepare(fmt.Sprintf(`DELETE FROM closurefolder WHERE child_id in (%s)`, param))
+	stmt, err = tx.Prepare(fmt.Sprintf(`DELETE FROM closureFolder WHERE child_id in (%s)`, param))
 	if err != nil {
 		return link, err
 	}
