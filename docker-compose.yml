@@ -4,6 +4,8 @@ services:
   db:
     container_name: mysqll
     image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 148468
     volumes:
       - db_d:/var/lib/mysql
     ports:

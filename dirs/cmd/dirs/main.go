@@ -16,6 +16,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 )
 
 func main() {
@@ -37,13 +38,13 @@ func main() {
 	router.Use(middleware.Logger)
 	router.Use(auth.JWTAuthMiddleware)
 
-	// router.Use(cors.Handler(cors.Options{
-	// 	AllowedOrigins:   []string{"http://client:80"},
-	// 	AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-	// 	ExposedHeaders:   []string{"Link"},
-	// 	AllowCredentials: true,
-	// 	AllowedMethods:   []string{"GET", "POST", "DELETE"},
-	// }))
+	router.Use(cors.Handler(cors.Options{
+		AllowedOrigins:   []string{"http://client:80"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "POST", "DELETE"},
+	}))
 
 	router.Get("/d/{parent_id}", view.New(log, storage))
 	router.Get("/search/{name}", search.New(log, storage))

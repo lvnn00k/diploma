@@ -162,7 +162,27 @@ function MoreImage(images) {
             imageContainer.addEventListener('mouseleave', stopDragging);
             imageContainer.addEventListener('mousemove', drag);
 
+            imageContainer.addEventListener('touchstart', startDragging);
+            imageContainer.addEventListener('touchend', stopDragging);
+            imageContainer.addEventListener('touchcancel', stopDragging);
+            imageContainer.addEventListener('touchmove', drag);
+
             imageContainer.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const delta = e.deltaY;
+                const zoomSpeed = 0.1;
+
+                if (delta < 0) {
+                    scale += zoomSpeed;
+                } else {
+                    scale -= zoomSpeed;
+                }
+
+                scale = Math.max(1, scale);
+                panImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+            });
+
+            imageContainer.addEventListener('gesturechange', function(e) {
                 e.preventDefault();
                 const delta = e.deltaY;
                 const zoomSpeed = 0.1;

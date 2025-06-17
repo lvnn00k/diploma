@@ -7,6 +7,7 @@ import (
 	"auth/internal/server/handlers/new"
 	"auth/internal/server/handlers/refresh"
 	"auth/internal/server/handlers/validation"
+	"auth/internal/server/middleware/admin"
 	"auth/internal/storage/mysql"
 	"auth/internal/token"
 	"log/slog"
@@ -52,7 +53,7 @@ func main() {
 	router.Get("/validate-token", validation.Validation(log, token))
 
 	router.Group(func(r chi.Router) {
-		// r.Use(admin.AdminMiddleware(token))
+		r.Use(admin.AdminMiddleware(token))
 		r.Post("/create", new.New(log, storage))
 	})
 

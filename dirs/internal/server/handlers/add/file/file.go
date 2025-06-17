@@ -143,7 +143,7 @@ func (req *Request) parseForm(r *http.Request) (*multipart.FileHeader, error) {
 	var header *multipart.FileHeader
 	var err error
 
-	r.ParseMultipartForm(10 << 20)
+	r.ParseMultipartForm(32 << 20)
 
 	req.File, header, err = r.FormFile("file")
 	if err != nil {

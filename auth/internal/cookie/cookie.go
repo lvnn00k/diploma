@@ -10,9 +10,9 @@ func SetToken(tokens []string, w *http.ResponseWriter) {
 			Name:     "accessToken",
 			Value:    tokens[0],
 			Path:     "/",
-			MaxAge:   60, //900 15 minutes
+			MaxAge:   900, //900 15 minutes
 			HttpOnly: true,
-			Secure:   true,
+			Secure:   false,
 		},
 		{
 			Name:     "refreshToken",
@@ -20,7 +20,7 @@ func SetToken(tokens []string, w *http.ResponseWriter) {
 			Path:     "/api/auth/", // api/auth
 			MaxAge:   86400,        // 1 day
 			HttpOnly: true,
-			Secure:   true,
+			Secure:   false,
 		},
 	}
 
@@ -39,7 +39,7 @@ func DeleteToken(w *http.ResponseWriter) {
 			Path:     "/",
 			MaxAge:   -1,
 			HttpOnly: true,
-			Secure:   true,
+			Secure:   false,
 		},
 		{
 			Name:     "refreshToken",
@@ -47,7 +47,7 @@ func DeleteToken(w *http.ResponseWriter) {
 			Path:     "/api/auth/",
 			MaxAge:   -1,
 			HttpOnly: true,
-			Secure:   true,
+			Secure:   false,
 		},
 	}
 

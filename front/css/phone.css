@@ -27,14 +27,14 @@
         display: none;
     }
     thead tr {
-        height: 40px;
+        height: 50px;
     }
     thead tr td:nth-child(3) {
         display: none;
     }
     header {
         width: 100%;
-        padding-top: 17px;
+        padding-top: 1px;
         flex-direction: column-reverse;
         align-items: flex-end;
     }
@@ -48,7 +48,7 @@
     .form-line input {
         height: 39px;
         width: 289px;
-        font-size: 14px;
+        font-size: 15px;
     }
     .form-line {
         width: 289px;
@@ -107,7 +107,7 @@
         margin-left: 0px;
     }
     .addforms .btn:last-child {
-        margin-left: 10px;
+        margin-top: 20px;
     }
     .result {
         width: 350px;
@@ -115,5 +115,9 @@
     }
     #back img {
         max-width: 360px;
+    }
+    .addbtns {
+        flex-direction: column;
+        width: 340px;
     }
 }
