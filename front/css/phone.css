@@ -1,0 +1,119 @@
+@media screen and (max-width: 415px) {
+    .container {
+        width: 350px;
+    }
+    .data {
+        width: 350px;
+        margin-top: 20px;
+    }
+    .breadcrumbs {
+        margin-left: 10px;
+        margin-bottom: 10px;
+    }
+    .breadcrumbs a {
+        font-size: 16px;
+    }
+    .table {
+        min-height: calc(100vh - 116px);
+    }
+    table {
+        width: 340px;
+        margin-top: 5px;
+    }
+    tbody tr {
+        height: 56px;
+    }
+    tbody tr td:nth-child(3) {
+        display: none;
+    }
+    thead tr {
+        height: 40px;
+    }
+    thead tr td:nth-child(3) {
+        display: none;
+    }
+    header {
+        width: 100%;
+        padding-top: 17px;
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
+    header button {
+        display: none;
+    }
+    .search {
+        height: 45px;
+        width: 350px;
+    }
+    .form-line input {
+        height: 39px;
+        width: 289px;
+        font-size: 14px;
+    }
+    .form-line {
+        width: 289px;
+    }
+    .form-icon {
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .logout {
+        display: none;
+    }
+    .phonebutton {
+        position: fixed;
+        width: 65px;
+        height: 65px;
+        display: flex;
+        background-color: #314EFF;
+        color: #FFF;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        font-size: 25px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .form-container {
+        width: 100%;
+        border-radius: 10px 10px 0px 0px;
+    }
+    #back {
+        align-items: flex-end;
+    }
+    #back form {
+        width: 340px;
+    }
+    #back form input {
+        width: 317.8px;
+        font-size: 14px;
+    }
+    .delete-block {
+        width: 330px;
+    }
+    .addforms {
+        padding-top: 20px;
+    }
+    button {
+        border-radius: 10px;
+        font-size: 14px;
+        height: 42px;
+    }
+    .btn {
+        margin-left: 0px;
+    }
+    .addforms .btn:last-child {
+        margin-left: 10px;
+    }
+    .result {
+        width: 350px;
+        margin-left: -52px;
+    }
+    #back img {
+        max-width: 360px;
+    }
+}

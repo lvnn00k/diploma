@@ -1,0 +1,7 @@
+env: "dev"
+storage_connect: "root:148468@tcp(db:3306)/user"
+http_server:
+  address: "0.0.0.0:5678"
+  timeout: 4s 
+  idle_timeout: 15s
+secret_key: "GYgds6fe64372"

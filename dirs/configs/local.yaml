@@ -1,0 +1,7 @@
+env: "local"
+storage_connect: "root:148468@tcp(127.0.0.1:3306)/test"
+http_server:
+  address: "0.0.0.0:8888"
+  timeout: 4s 
+  idle_timeout: 60s
+path_to_files: "C:/Users/lvnve/Desktop/dip/files"

@@ -1,0 +1,110 @@
+@media screen and (max-width: 1920px) {
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Inter;
+}
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.form-block {
+    width: 416px;
+    height: auto;
+    border-radius: 10px;
+    padding: 21px 54px;
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.17);
+    background: rgb(255, 255, 255);
+}
+.form-block form div{
+    margin-top: 25px;
+}
+.form-block form div label {
+    margin-left: 12px;
+}
+h1 {
+    font-size: 36px;
+    font-weight: 700;   
+    text-align: center;
+}
+.form-block h1 {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+input {
+    width: 409px;
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid rgb(181, 190, 212);
+    background: rgb(255, 255, 255);
+    outline: 0;
+    outline-offset: 0;
+    font-size: 16px;
+    padding-left: 5px;
+}
+button {
+    padding-left: 29px;
+    padding-right: 29px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    height: 42px;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+}
+button[data-active="false"] {
+    color: #314EFF;
+    background-color: rgb(238, 242, 252);
+}
+button[data-active="true"] {
+    color: #FFF;
+    background-color: #314EFF;
+}
+button:hover {
+    color: #314EFF;
+    background-color: #FFF;
+    border: 2px solid #314EFF;
+    cursor: pointer;
+}
+small {
+    color: rgb(255, 53, 0);
+}
+}
+
+@media screen and (max-width: 415px) { 
+    .form-block {
+        width: 100%;
+        height: auto;
+        border-radius: none;
+        padding: 10px;
+        box-shadow: none;
+        
+    }
+    .form-block form div{
+        margin-top: 25px;
+    }
+    .form-block form div label {
+        margin-left: 12px;
+    }
+    label {
+        font-size: 14px;
+    }
+    h1 {
+        font-size: 30px;
+    }
+    input {
+        width: calc(100% - 7px);
+        font-size: 14px;
+        padding-left: 5px;
+    }
+    button {
+        font-size: 14px;
+    } 
+}

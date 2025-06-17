@@ -1,0 +1,282 @@
+# api/
+openapi: 3.0.0
+info:
+  title: files-api
+  description: The API for data service
+  version: 1.0.0
+servers:
+- url: http://localhost:8888
+  description: Data service
+paths:
+  /d/{parent_id}:
+    get:
+      tags:
+      - Data view
+      description: returns all files and folders from the parent element
+      parameters:
+      - name: parent_id
+        in: path
+        description: parent of the data
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: Files and folders from the parent element
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/view_response_200'
+        "400":
+          description: Failed to parse id
+        "404":
+          description: Files or folder not found
+        "500":
+          description: Server error
+  /search/{name}:
+    get:
+      tags:
+      - Data view
+      description: return found files and folders
+      parameters:
+      - name: name
+        in: path
+        description: Finds data by name
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Found files and folders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_response_200'
+        "404":
+          description: Data not found
+        "500":
+          description: Server error
+  /add/folder:
+    post:
+      tags:
+      - New data
+      description: Create new folder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/add_folder_body'
+      responses:
+        "201":
+          description: Folder created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Failed to decode request
+        "409":
+          description: Folder already exists
+        "500":
+          description: Failed to create folder
+  /add/file:
+    post:
+      tags:
+      - New data
+      description: Upload file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/add_file_body'
+      responses:
+        "201":
+          description: File created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Failed to decode request
+        "409":
+          description: File already exists
+        "413":
+          description: File too large
+        "500":
+          description: Failed to upload file
+  /delete/folder/{id}:
+    delete:
+      tags:
+      - Delete data
+      description: delete folder
+      parameters:
+      - name: id
+        in: path
+        description: folder id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "204":
+          description: Folder delete
+        "400":
+          description: Failed to decode id
+        "500":
+          description: Server error
+  /delete/file/{id}:
+    delete:
+      tags:
+      - Delete data
+      description: delete file
+      parameters:
+      - name: id
+        in: path
+        description: file id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "204":
+          description: File delete
+        "400":
+          description: Failed to decode id
+        "500":
+          description: Server error
+components:
+  schemas:
+    file_info:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          parent_id:
+            type: integer
+          path:
+            type: string
+          size:
+            type: integer
+          date_create:
+            type: string
+            format: date-time
+    folder_info:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+          parent_id:
+            type: integer
+          path:
+            type: string
+          date_create:
+            type: string
+            format: date-time
+    path_info:
+        type: array
+        items: 
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            depth:
+              type: integer
+    files_to_search:
+        type: array
+        items:
+          type: object
+          properties:
+            file:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                parent_id:
+                  type: integer
+                path:
+                  type: string
+                size:
+                  type: integer
+                date_create:
+                  type: string
+                  format: date-time
+            path:
+              type: string
+    folders_to_search:
+        type: array
+        items:
+          type: object
+          properties:
+            folder:
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+                parent_id:
+                  type: integer
+                path:
+                  type: string
+                date_create:
+                  type: string
+                  format: date-time
+            path:
+              type: string
+    view_response_200:
+      type: object
+      properties:
+        files:
+          $ref: '#/components/schemas/file_info'
+        folders:
+          $ref: '#/components/schemas/folder_info'
+        path:
+          $ref: '#/components/schemas/path_info'
+    search_response_200:
+        type: object
+        properties:
+          files:
+            $ref: '#/components/schemas/files_to_search'
+          folders:
+            $ref: '#/components/schemas/folders_to_search'
+    add_folder_body:
+      type: object
+      properties:
+        name:
+          type: string
+        parent_id:
+          type: integer
+    inline_response_201:
+      type: object
+      properties:
+        success:
+          type: boolean
+    add_file_body:
+      type: object
+      properties:
+        name:
+          type: string
+        file:
+          type: string
+          format: binary
+        parent_id:
+          type: integer

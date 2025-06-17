@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  db:
+    container_name: mysqll
+    image: mysql
+    volumes:
+      - db_d:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - common-net
+  dir-server:
+    container_name: dirs-server
+    build: dirs/
+    volumes:
+      - user_files:/var/data/user_files
+    ports:
+      - 8888:8888
+    networks:
+      - common-net
+    links:
+      - db
+  auth-server:
+    container_name: auth-server
+    build: auth/
+    ports:
+      - 5678:5678
+    networks:
+      - common-net
+    links:
+      - db
+  client:
+    container_name: client
+    build: front/
+    ports:
+      - 80:80
+    volumes:
+      - user_files:/usr/share/nginx/html/files
+    networks:
+      - common-net
+    depends_on:
+      - dir-server
+      - auth-server
+volumes:
+  db_d:
+  user_files:
+networks:
+  common-net: {}
+  

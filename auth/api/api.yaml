@@ -1,0 +1,118 @@
+# api/
+openapi: 3.0.0
+info:
+  title: auth-api
+  description: The API for auth service
+  version: 1.0.0
+servers:
+- url: http://localhost:5678
+  description: Swagger for auth service
+paths:
+  /login:
+    post:
+      tags:
+        - Auth users
+      description: User authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login_body'
+      responses:
+        "200":
+          description: users login 
+        "400":
+          description: failed to decode request
+        "401":
+          description: Incorrect password or login
+        "500":
+          description: server error
+  /logout:
+    get:
+      tags:
+        - Auth users
+      description: user logout
+      parameters:
+        - name: refreshToken
+          in: cookie
+          description: JWT-token
+          schema:
+            type: string
+      responses:
+        "200":
+          description: users logout
+        "400":
+          description: cookie not found
+  /refresh-token:
+    get:
+      tags:
+        - Token
+      description: refreshing JWT-token
+      parameters:
+        - name: refreshToken
+          in: cookie
+          description: JWT-token
+          schema:
+            type: string
+      responses:
+        "200":
+          description: token refresh 
+        "400":
+          description: cookie not found
+        "401":
+          description: incorrect token
+        "500":
+          description: server error
+  /validate-token:
+    get:
+      tags:
+        - Token
+      description: users validate
+      parameters:
+        - name: accessToken
+          in: cookie
+          description: JWT-token
+          schema:
+            type: string
+      responses:
+        "200":
+          description: token valid
+        "401":
+          description: incorrect token 
+  /create:
+    post:
+      tags:
+        - Admin
+      description: create new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/new_user_body'
+      responses:
+        "201":
+          description: user created
+        "400":
+          description: failed to decode request
+        "409":
+          description: login exists
+        "500":
+          description: server error
+components:
+  schemas:
+    login_body:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    new_user_body:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+        admin:
+          type: boolean
