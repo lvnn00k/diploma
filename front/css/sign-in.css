@@ -103,6 +103,7 @@ small {
     }
     button {
         /* font-size: 14px; */
-        width: 327px;
+        width: calc(100% - 13px);
+        margin-top: 40px;
     } 
 }

@@ -3,14 +3,24 @@ function objt(data) {
     if (data['folders'] != null) {
         data['folders'].forEach(function(item) {
             fileName = item['folder']['name'];
-            link = item['path'];
+            link_name = item['path'];
+            if (document.documentElement.clientWidth <= 415) {
+                link_objs = link_name.split("/");
+                if (link_objs.length > 3) {
+                    link_name = "/"+link_objs[1]+"/.../"+link_objs[link_objs.length - 2];
+                } else if (link_objs.length == 3) {
+                    link_name = "/"+link_objs[1];
+                } else {
+                    link_name = "/";
+                }
+            } 
             id = item['folder']['id'];
             html +=
                 `<div class="result-obj">
                     <div class="obj-type"></div>
                     <div class="obj-name">
                         <a href='/`+id+`'>`+fileName+`</a>
-                        <div class="obj-path">`+link+`</div>
+                        <div class="obj-path">`+link_name+`</div>
                     </div>
                 </div>
                 `;
@@ -21,9 +31,15 @@ function objt(data) {
             fileName = item['file']['name'];
             link = item['path'];
             link_name = link;
-            if (window.innerWidth <= 415) {
-                link_obj = link.splint("/");
-                link_name = "/"+link_obj[0]+"/.../"+link_obj[link_obj.lenght - 1];
+            if (document.documentElement.clientWidth <= 415) {
+                link_objs = link_name.split("/");
+                if (link_objs.length > 2) {
+                    link_name = "/"+link_objs[1]+"/.../"+link_objs[link_objs.length - 1];
+                } else if (link_objs.length == 2) {
+                    link_name = "/"+link_objs[1];
+                } else {
+                    link_name = "/";
+                }
             } 
             html += 
                 `<div class="result-obj">

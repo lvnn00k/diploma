@@ -16,13 +16,14 @@ function table(data) {
             link += `${folderName}/`;
         });
     }
-    if (window.innerWidth <= 415 && document.querySelector(".breadcrumbs").clientWidth >= 340) {
+
+    if (document.documentElement.clientWidth <= 415 && document.querySelector(".breadcrumbs").clientWidth >= 330) {
         document.querySelector(".breadcrumbs").innerHTML = `<a href="/1">Главная</a>
             <div class='division'></div>
             <a>...</a>
             <div class='division'></div>
             <a href="/${data['path'][data['path'].length - 1]['id']}">${data['path'][data['path'].length - 1]['name']}</a>
-        `
+        `;
     }
     if (data['folders'] === null && data['files'] === null) {
         document.querySelector("tbody").insertAdjacentHTML('beforeend',
