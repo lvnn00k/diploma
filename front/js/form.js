@@ -29,6 +29,9 @@ function AddFolder() {
                 return;
             }
             document.querySelector(".div-form").remove();
+            if (document.getElementsByClassName("btn-block")[0]) {
+                document.getElementsByClassName("btn-block")[0].remove();
+            }
             document.querySelector('[data-form="folder"]').setAttribute('data-active', 'false');
             load(); 
         })
@@ -62,6 +65,9 @@ function AddFile() {
                 return;
             }
             document.querySelector(".div-form").remove();
+            if (document.getElementsByClassName("btn-block")[0]) {
+                document.getElementsByClassName("btn-block")[0].remove();
+            }
             document.querySelector('[data-form="file"]').setAttribute('data-active', 'false');
             load(); 
         })

@@ -1,7 +1,7 @@
 function phoneBtn() {
     let phonebuttons = document.createElement("div");
     phonebuttons.className = "phonebutton";
-    phonebuttons.innerHTML = "+";
+    phonebuttons.innerHTML = "&#43";
     document.body.append(phonebuttons);
 
     phonebuttons.addEventListener("click", function() {
@@ -25,6 +25,7 @@ function phoneBtn() {
                 btnblock.remove();
             }
         });
+        
 
     })
 }
@@ -35,6 +36,9 @@ window.addEventListener('resize', () => {
     } else {
         if (document.getElementsByClassName("btn-block")[0]) {
             document.getElementsByClassName("btn-block")[0].remove();
+        }
+        if (document.getElementsByClassName("phonebutton")[0]) {
+            document.getElementsByClassName("phonebutton")[0].remove();
         }
     }
 });

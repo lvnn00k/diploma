@@ -62,7 +62,11 @@
         align-items: center;
     }
     .logout {
-        display: none;
+        display: block;
+        background-color: #F6F9FF;
+        height: 20px;
+        width: 80px;
+        margin-top: 12px;
     }
     .phonebutton {
         position: fixed;
@@ -92,11 +96,14 @@
         width: 317.8px;
         font-size: 14px;
     }
+    #back form input[type="file"] { 
+        padding-top: 12px;
+    }
     .delete-block {
         width: 330px;
     }
     .addforms {
-        padding-top: 20px;
+        padding-top: 10px;
     }
     button {
         border-radius: 10px;

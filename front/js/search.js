@@ -20,12 +20,17 @@ function objt(data) {
         data['files'].forEach(function(item) {
             fileName = item['file']['name'];
             link = item['path'];
+            link_name = link;
+            if (window.innerWidth <= 415) {
+                link_obj = link.splint("/");
+                link_name = "/"+link_obj[0]+"/.../"+link_obj[link_obj.lenght - 1];
+            } 
             html += 
                 `<div class="result-obj">
                     <div class="obj-type"><div class="file-icon"></div></div>
                     <div class="obj-name search-file-info" data-link="`+link+`">
                         <div class='name'>`+fileName+`</div>
-                        <div class="obj-path">`+link+`</div>
+                        <div class="obj-path">`+link_name+`</div>
                     </div>
                 </div>
                 `;

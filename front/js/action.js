@@ -55,11 +55,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("cancelBtn").addEventListener("click", function() {
                     div.remove();
                     document.querySelector('[data-form="file"]').setAttribute('data-active', 'false');
+                    if (document.getElementsByClassName("btn-block")[0]) {
+                        document.getElementsByClassName("btn-block")[0].remove();
+                    }
                 });
                 document.getElementById("back").addEventListener("click", function(event) {
                     if (event.target === document.getElementById("back")) {
                         div.remove();
                         document.querySelector('[data-form="file"]').setAttribute('data-active', 'false');
+                        if (document.getElementsByClassName("btn-block")[0]) {
+                            document.getElementsByClassName("btn-block")[0].remove();
+                        }
                     }
                 });
             }
@@ -101,11 +107,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("cancelBtn").addEventListener("click", function() {
                     div.remove();
                     document.querySelector('[data-form="folder"]').setAttribute('data-active', 'false');
+                    if (document.getElementsByClassName("btn-block")[0]) {
+                        document.getElementsByClassName("btn-block")[0].remove();
+                    }
                 });
                 document.getElementById("back").addEventListener("click", function(event) {
                     if (event.target === document.getElementById("back")) {
                         div.remove();
                         document.querySelector('[data-form="folder"]').setAttribute('data-active', 'false');
+                        if (document.getElementsByClassName("btn-block")[0]) {
+                            document.getElementsByClassName("btn-block")[0].remove();
+                        }
                     }
                 });
             }
@@ -144,7 +156,7 @@ function MoreImage(images) {
             };
 
             const drag = (e) => {
-                if (!isDragging) return;
+                if (!isDragging || (e.touches && e.touches.length > 1)) return;
                 e.preventDefault();
                 const x = e.pageX;
                 const y = e.pageY;
@@ -157,15 +169,53 @@ function MoreImage(images) {
                 startY = y;
             };
 
+            const handleTouchStart = (e) => {
+                if (e.touches.length === 1) {
+                    startDragging(e);
+                } else if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    initialDistance = Math.hypot(
+                        touch1.pageX - touch2.pageX,
+                        touch1.pageY - touch2.pageY
+                    );
+                }
+            };
+
+            const handleTouchMove = (e) => {
+                if (e.touches.length === 2) {
+                    e.preventDefault();
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    const currentDistance = Math.hypot(
+                        touch1.pageX - touch2.pageX,
+                        touch1.pageY - touch2.pageY
+                    );
+
+                    const newScale = scale * (currentDistance / initialDistance);
+                    const minScale = 1;
+                    const maxScale = 5;
+
+                    scale = Math.min(Math.max(newScale, minScale), maxScale);
+
+                    initialDistance = currentDistance;
+
+                    panImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
+                } else if (e.touches.length === 1 && isDragging) {
+                    drag(e);
+                }
+            };
+
             imageContainer.addEventListener('mousedown', startDragging);
             imageContainer.addEventListener('mouseup', stopDragging);
             imageContainer.addEventListener('mouseleave', stopDragging);
             imageContainer.addEventListener('mousemove', drag);
 
-            imageContainer.addEventListener('touchstart', startDragging);
+            imageContainer.addEventListener('touchstart', handleTouchStart, { passive: false });
+            imageContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
             imageContainer.addEventListener('touchend', stopDragging);
-            imageContainer.addEventListener('touchcancel', stopDragging);
-            imageContainer.addEventListener('touchmove', drag);
+
 
             imageContainer.addEventListener('wheel', function(e) {
                 e.preventDefault();
@@ -182,20 +232,7 @@ function MoreImage(images) {
                 panImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
             });
 
-            imageContainer.addEventListener('gesturechange', function(e) {
-                e.preventDefault();
-                const delta = e.deltaY;
-                const zoomSpeed = 0.1;
-
-                if (delta < 0) {
-                    scale += zoomSpeed;
-                } else {
-                    scale -= zoomSpeed;
-                }
-
-                scale = Math.max(1, scale);
-                panImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
-            });
+        
 
             closeBtn.addEventListener("click", function(event) {
                 if (event.target === closeBtn) {
