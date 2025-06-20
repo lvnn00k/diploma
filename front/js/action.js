@@ -144,9 +144,12 @@ function MoreImage(images) {
             let scale = 1;
 
             const startDragging = (e) => {
+                if (e.touches && e.touches.length !== 1) return;
+
                 isDragging = true;
-                startX = e.pageX;
-                startY = e.pageY;
+                startX = e.pageX || e.touches[0].pageX;
+                startY = e.pageY || e.touches[0].pageY;
+
                 imageContainer.style.cursor = 'grabbing';
             };
 
@@ -158,10 +161,11 @@ function MoreImage(images) {
             const drag = (e) => {
                 if (!isDragging || (e.touches && e.touches.length > 1)) return;
                 e.preventDefault();
-                const x = e.pageX;
-                const y = e.pageY;
-                const walkX = (x - startX);
-                const walkY = (y - startY);
+                const x = e.pageX || e.touches[0].pageX;
+                const y = e.pageY || e.touches[0].pageY;
+
+                const walkX = (x - startX) / scale;
+                const walkY = (y - startY) / scale;
                 translateX += walkX;
                 translateY += walkY;
                 panImage.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;

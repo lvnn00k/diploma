@@ -85,7 +85,7 @@ small {
         border-radius: none;
         padding: 10px;
         box-shadow: none;
-        
+        margin-top: -75px;
     }
     .form-block form div{
         margin-top: 25px;
@@ -103,6 +103,6 @@ small {
     }
     button {
         /* font-size: 14px; */
-        width: 100%;
+        width: 327px;
     } 
 }
